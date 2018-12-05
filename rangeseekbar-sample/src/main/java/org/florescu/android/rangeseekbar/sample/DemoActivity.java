@@ -23,6 +23,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import org.florescu.android.rangeseekbar.RangeSeekBar;
+import org.florescu.android.util.Formatter;
 
 public class DemoActivity extends Activity {
 
@@ -37,9 +38,15 @@ public class DemoActivity extends Activity {
         // Setup the new range seek bar
         RangeSeekBar<Integer> rangeSeekBar = new RangeSeekBar<>(this);
         // Set the range
-        rangeSeekBar.setRangeValues(15, 90);
-        rangeSeekBar.setSelectedMinValue(20);
-        rangeSeekBar.setSelectedMaxValue(88);
+        rangeSeekBar.setRangeValues(5, 24);
+        rangeSeekBar.setSelectedMinValue(5);
+        rangeSeekBar.setSelectedMaxValue(24);
+        rangeSeekBar.setFormatter(new Formatter() {
+            @Override
+            public String format(String value) {
+                return value + " AM";
+            }
+        });
 
         // Add to layout
         FrameLayout layout = (FrameLayout) findViewById(R.id.seekbar_placeholder);

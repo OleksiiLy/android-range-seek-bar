@@ -41,6 +41,7 @@ import android.view.ViewConfiguration;
 import android.widget.ImageView;
 
 import org.florescu.android.util.BitmapUtil;
+import org.florescu.android.util.Formatter;
 import org.florescu.android.util.PixelUtil;
 
 import java.math.BigDecimal;
@@ -83,7 +84,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
     private static final int DEFAULT_TEXT_DISTANCE_TO_BUTTON_IN_DP = 8;
     private static final int DEFAULT_TEXT_DISTANCE_TO_TOP_IN_DP = 8;
 
-    private static final int LINE_HEIGHT_IN_DP = 1;
+    private static final int LINE_HEIGHT_IN_DP = 2;
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint shadowPaint = new Paint();
 
@@ -134,6 +135,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
     private Path thumbShadowPath;
     private Path translatedThumbShadowPath = new Path();
     private Matrix thumbShadowMatrix = new Matrix();
+    private Formatter formatter;
 
     private boolean activateOnDefaultValues;
 
@@ -631,7 +633,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
         rect.right = getWidth() - padding;
         canvas.drawRect(rect, paint);
 
-        boolean selectedValuesAreDefault = (normalizedMinValue <= minDeltaForDefault && normalizedMaxValue >= 1 - minDeltaForDefault);
+        boolean selectedValuesAreDefault = (normalizedMinValue < minDeltaForDefault && normalizedMaxValue > 1 - minDeltaForDefault);
 
         int colorToUseForButtonsAndHighlightedLine = !alwaysActive && !activateOnDefaultValues && selectedValuesAreDefault ?
                 defaultColor : // default values
@@ -665,8 +667,17 @@ public class RangeSeekBar<T extends Number> extends ImageView {
             paint.setTextSize(textSize);
             paint.setColor(textAboveThumbsColor);
 
-            String minText = valueToString(getSelectedMinValue());
-            String maxText = valueToString(getSelectedMaxValue());
+            String minText;
+            String maxText;
+
+            if (formatter != null ) {
+                minText = formatter.format(valueToString(getSelectedMinValue()));
+                maxText = formatter.format(valueToString(getSelectedMaxValue()));
+            } else {
+                minText = valueToString(getSelectedMinValue());
+                maxText = valueToString(getSelectedMaxValue());
+            }
+
             float minTextWidth = paint.measureText(minText);
             float maxTextWidth = paint.measureText(maxText);
             // keep the position so that the labels don't get cut off
@@ -859,6 +870,14 @@ public class RangeSeekBar<T extends Number> extends ImageView {
             double result = (screenCoord - padding) / (width - 2 * padding);
             return Math.min(1d, Math.max(0d, result));
         }
+    }
+
+    public Formatter getFormatter() {
+        return formatter;
+    }
+
+    public void setFormatter(Formatter formatter) {
+        this.formatter = formatter;
     }
 
     /**
