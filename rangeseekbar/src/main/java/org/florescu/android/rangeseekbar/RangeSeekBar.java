@@ -75,7 +75,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
     public static final Integer DEFAULT_MINIMUM = 0;
     public static final Integer DEFAULT_MAXIMUM = 100;
     public static final Integer DEFAULT_STEP = 1;
-    public static final int HEIGHT_IN_DP = 30;
+    public static final int HEIGHT_IN_DP = 40;
     public static final int TEXT_LATERAL_PADDING_IN_DP = 3;
 
     private static final int INITIAL_PADDING_IN_DP = 8;
@@ -170,9 +170,9 @@ public class RangeSeekBar<T extends Number> extends ImageView {
 
     private void init(Context context, AttributeSet attrs) {
         float barHeight;
-        int thumbNormal = R.drawable.seek_thumb_normal;
-        int thumbPressed = R.drawable.seek_thumb_pressed;
-        int thumbDisabled = R.drawable.seek_thumb_disabled;
+        int thumbNormal = R.drawable.thumb;
+        int thumbPressed = R.drawable.thumb;
+        int thumbDisabled = R.drawable.thumb;
         int thumbShadowColor;
         int defaultShadowColor = Color.argb(75, 0, 0, 0);
         int defaultShadowYOffset = PixelUtil.dpToPx(context, 2);
